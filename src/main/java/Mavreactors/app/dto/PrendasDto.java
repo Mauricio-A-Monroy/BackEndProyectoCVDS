@@ -19,7 +19,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class PrendasDto {
     private Long prendaId;
-    private byte[] foto;
+    private String foto;
     private Boolean sePlancha;
     private Date ultimoLavado;
     private Character tipo;

@@ -22,10 +22,26 @@ public class PrendasController {
     private final PrendasService prendasService;
 
     @PostMapping
-    public ResponseEntity<PrendasDto> createPrenda(@RequestBody PrendasDto prendasDto){
-        PrendasDto savePrenda = prendasService.createPrenda(prendasDto);
-        return new ResponseEntity<>(savePrenda, HttpStatus.CREATED);
+    public ResponseEntity<PrendasDto> createPrenda(@RequestParam("imagen") MultipartFile file,
+                                                  @RequestBody PrendasDto prendasDto) {
+        try {
+            // Verificar si se ha seleccionado un archivo
+            if (!file.isEmpty()) {
+                // Convertir la imagen a una cadena Base64
+                String base64Image = Base64.getEncoder().encodeToString(file.getBytes());
+                // Asignar la imagen codificada a la DTO de prendas
+                prendasDto.setFoto(base64Image);
+            }
+
+            // Crear la prenda utilizando el servicio
+            PrendasDto savePrenda = prendasService.createPrenda(prendasDto);
+            return new ResponseEntity<>(savePrenda, HttpStatus.CREATED);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
 
     @GetMapping
     public ResponseEntity<List<PrendasDto>> getAllPrendas(){
@@ -33,23 +49,4 @@ public class PrendasController {
         return ResponseEntity.ok(prendas);
     }
 
-    @PostMapping("/subir-prenda")
-    public String subirPrenda(@RequestParam("imagen") MultipartFile file,
-                              @RequestParam(value = "sePlancha", required = false) boolean sePlancha) {
-        // Verificar si se ha seleccionado un archivo
-        if (!file.isEmpty()) {
-            try {
-                // Convertir la imagen a una cadena Base64
-                String base64Image = Base64.getEncoder().encodeToString(file.getBytes());
-
-                // Aquí puedes guardar base64Image en la base de datos o en algún otro almacenamiento
-                // También puedes manejar otros datos de la prenda como 'sePlancha' y guardarlos en la base de datos
-
-                return "redirect:/exito"; // Redirigir a una página de éxito después de la carga
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return "redirect:/error"; // Redirigir a una página de error si la carga falla
-    }
 }
