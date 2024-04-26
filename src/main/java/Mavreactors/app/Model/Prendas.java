@@ -20,7 +20,7 @@ public class Prendas {
 
     @Lob
     @Column(name = "FOTO", columnDefinition = "LONGBLOB")
-    private byte[] foto;
+    private String foto;
 
     @Column(name = "SE_PLANCHA")
     private Boolean sePlancha;

@@ -1,5 +1,6 @@
 package Mavreactors.app.Controller;
 
+import Mavreactors.app.Model.Prendas;
 import Mavreactors.app.Service.PrendasService;
 import Mavreactors.app.dto.PrendasDto;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.Base64;
 import java.util.List;
 
 @Controller
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/prendas")
@@ -21,11 +22,12 @@ public class PrendasController {
 
     private final PrendasService prendasService;
 
-    @PostMapping
+    @PostMapping("/subir-prenda")
     public ResponseEntity<PrendasDto> createPrenda(@RequestBody PrendasDto prendasDto){
         PrendasDto savePrenda = prendasService.createPrenda(prendasDto);
         return new ResponseEntity<>(savePrenda, HttpStatus.CREATED);
     }
+
 
     @GetMapping
     public ResponseEntity<List<PrendasDto>> getAllPrendas(){
@@ -33,23 +35,4 @@ public class PrendasController {
         return ResponseEntity.ok(prendas);
     }
 
-    @PostMapping("/subir-prenda")
-    public String subirPrenda(@RequestParam("imagen") MultipartFile file,
-                              @RequestParam(value = "sePlancha", required = false) boolean sePlancha) {
-        // Verificar si se ha seleccionado un archivo
-        if (!file.isEmpty()) {
-            try {
-                // Convertir la imagen a una cadena Base64
-                String base64Image = Base64.getEncoder().encodeToString(file.getBytes());
-
-                // Aquí puedes guardar base64Image en la base de datos o en algún otro almacenamiento
-                // También puedes manejar otros datos de la prenda como 'sePlancha' y guardarlos en la base de datos
-
-                return "redirect:/exito"; // Redirigir a una página de éxito después de la carga
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return "redirect:/error"; // Redirigir a una página de error si la carga falla
-    }
 }
