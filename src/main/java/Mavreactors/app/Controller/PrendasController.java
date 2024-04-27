@@ -35,4 +35,24 @@ public class PrendasController {
         return ResponseEntity.ok(prendas);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<PrendasDto> getPrendaById(@PathVariable("id") long prendaId) {
+        PrendasDto prendasDto = prendasService.getPrendaById(prendaId);
+        return ResponseEntity.ok(prendasDto);
+
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<PrendasDto> udaptePrenda(@PathVariable("id") Long prendaId,
+                                                      @RequestBody PrendasDto udaptedPrenda){
+        PrendasDto prendasDto = prendasService.updatePrenda(prendaId, udaptedPrenda);
+        return ResponseEntity.ok(prendasDto);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String>  deletePrenda(@PathVariable("id") Long prendaId){
+        prendasService.deletePrenda(prendaId);
+        return ResponseEntity.ok("Employee deleted successfully.! ");
+    }
+
 }

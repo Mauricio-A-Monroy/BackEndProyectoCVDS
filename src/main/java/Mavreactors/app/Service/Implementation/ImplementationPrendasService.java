@@ -1,5 +1,6 @@
 package Mavreactors.app.Service.Implementation;
 
+import Mavreactors.app.Exceptions.ResourceNotFoundException;
 import Mavreactors.app.Mapper.PrendasMapper;
 import Mavreactors.app.Model.Prendas;
 import Mavreactors.app.Repository.PrendaRepository;
@@ -24,11 +25,6 @@ public class ImplementationPrendasService implements PrendasService {
     }
 
     @Override
-    public PrendasDto getPrendaById(Long prendasDto) {
-        return null;
-    }
-
-    @Override
     public List<PrendasDto> getAllPrendas() {
         List<Prendas> prendas = prendaRepository.findAll();
         return prendas.stream().map(prenda -> PrendasMapper.mapToPrendasDto(prenda))
@@ -36,12 +32,37 @@ public class ImplementationPrendasService implements PrendasService {
     }
 
     @Override
+    public PrendasDto getPrendaById(Long prendasId) {
+        Prendas prendas = prendaRepository.findById(prendasId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Employee is not exists with given id: " + prendasId));
+
+        return PrendasMapper.mapToPrendasDto(prendas);
+    }
+
+    @Override
     public PrendasDto updatePrenda(Long prendasId, PrendasDto updatePrenda) {
-        return null;
+        Prendas prendas = prendaRepository.findById(prendasId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Employee is not exists with given id: " + prendasId));
+
+        prendas.setPrendaId(updatePrenda.getPrendaId());
+        prendas.setFoto(updatePrenda.getFoto());
+        prendas.setSePlancha(updatePrenda.getSePlancha());
+        prendas.setUltimoLavado(updatePrenda.getUltimoLavado());
+        prendas.setTipo(updatePrenda.getTipo());
+        prendas.setUltimoUso(updatePrenda.getUltimoUso());
+
+        Prendas updatePrendaOBJ = prendaRepository.save(prendas);
+
+        return PrendasMapper.mapToPrendasDto(updatePrendaOBJ);
     }
 
     @Override
     public void deletePrenda(Long prendasId) {
-
+        Prendas prendas = prendaRepository.findById(prendasId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Employee is not exists with given id: " + prendasId));
+        prendaRepository.deleteById(prendasId);
     }
 }
