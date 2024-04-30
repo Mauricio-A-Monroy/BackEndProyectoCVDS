@@ -1,21 +1,40 @@
 package Mavreactors.app;
 
+import Mavreactors.app.Model.User;
+import Mavreactors.app.Model.UserRole;
+import Mavreactors.app.Repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Base64;
+import org.springframework.context.annotation.Bean;
 
+import java.io.IOException;
+import java.util.Arrays;
+
+import org.springframework.boot.CommandLineRunner;
+
+@Slf4j
 @SpringBootApplication
 public class ProyectoCvdsApplication {
 
-	public static void main(String[] args) throws IOException {
-		SpringApplication.run(ProyectoCvdsApplication.class, args);
-		/*String imagePath = "ruta/a/la/imagen.jpg"; // Cambia esto por la ruta de tu imagen
-		byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
-		String base64Image = Base64.getEncoder().encodeToString(imageBytes);*/
+	private final UserRepository userRepository;
 
+	@Autowired
+    public ProyectoCvdsApplication(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public static void main(String[] args) throws IOException {
+		SpringApplication.run(ProyectoCvdsApplication.class, args);
+
+	}
+
+	@Bean
+	public CommandLineRunner run() {
+		return (args) -> {
+			userRepository.save(new User("admin@site.org", "admin", Arrays.asList(UserRole.ADMINISTRATOR, UserRole.CUSTOMER)));
+		};
 	}
 
 }

@@ -45,9 +45,7 @@ public class ImplementationPrendasService implements PrendasService {
         Prendas prendas = prendaRepository.findById(prendasId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Employee is not exists with given id: " + prendasId));
-
-        prendas.setPrendaId(updatePrenda.getPrendaId());
-        prendas.setFoto(updatePrenda.getFoto());
+        //prendas.setFoto(updatePrenda.getFoto());
         prendas.setSePlancha(updatePrenda.getSePlancha());
         prendas.setUltimoLavado(updatePrenda.getUltimoLavado());
         prendas.setTipo(updatePrenda.getTipo());

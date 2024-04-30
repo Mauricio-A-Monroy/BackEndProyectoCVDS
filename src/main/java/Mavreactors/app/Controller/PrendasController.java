@@ -17,39 +17,38 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/prendas")
+@RequestMapping("/api/customer")
 public class PrendasController {
 
     private final PrendasService prendasService;
 
-    @PostMapping("/subir-prenda")
+    @PostMapping("/prenda")
     public ResponseEntity<PrendasDto> createPrenda(@RequestBody PrendasDto prendasDto){
         PrendasDto savePrenda = prendasService.createPrenda(prendasDto);
         return new ResponseEntity<>(savePrenda, HttpStatus.CREATED);
     }
 
-
-    @GetMapping
+    @GetMapping("/prenda")
     public ResponseEntity<List<PrendasDto>> getAllPrendas(){
         List<PrendasDto> prendas = prendasService.getAllPrendas();
         return ResponseEntity.ok(prendas);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/prenda/{id}")
     public ResponseEntity<PrendasDto> getPrendaById(@PathVariable("id") long prendaId) {
         PrendasDto prendasDto = prendasService.getPrendaById(prendaId);
         return ResponseEntity.ok(prendasDto);
 
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/prenda/{id}")
     public ResponseEntity<PrendasDto> udaptePrenda(@PathVariable("id") Long prendaId,
                                                       @RequestBody PrendasDto udaptedPrenda){
         PrendasDto prendasDto = prendasService.updatePrenda(prendaId, udaptedPrenda);
         return ResponseEntity.ok(prendasDto);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/prenda/{id}")
     public ResponseEntity<String>  deletePrenda(@PathVariable("id") Long prendaId){
         prendasService.deletePrenda(prendaId);
         return ResponseEntity.ok("Employee deleted successfully.! ");
