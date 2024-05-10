@@ -11,7 +11,8 @@ public class PrendasMapper {
                 prendas.getSePlancha(),
                 prendas.getUltimoLavado(),
                 prendas.getTipo(),
-                prendas.getUltimoUso()
+                prendas.getUltimoUso(),
+                prendas.getUser()
         );
     }
 
@@ -22,7 +23,8 @@ public class PrendasMapper {
                 prendasDtoDto.getSePlancha(),
                 prendasDtoDto.getUltimoLavado(),
                 prendasDtoDto.getTipo(),
-                prendasDtoDto.getUltimoUso()
+                prendasDtoDto.getUltimoUso(),
+                prendasDtoDto.getUser()
         );
     }
 }

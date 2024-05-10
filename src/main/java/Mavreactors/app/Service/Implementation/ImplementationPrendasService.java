@@ -3,6 +3,7 @@ package Mavreactors.app.Service.Implementation;
 import Mavreactors.app.Exceptions.ResourceNotFoundException;
 import Mavreactors.app.Mapper.PrendasMapper;
 import Mavreactors.app.Model.Prendas;
+import Mavreactors.app.Model.User;
 import Mavreactors.app.Repository.PrendaRepository;
 import Mavreactors.app.Service.PrendasService;
 import Mavreactors.app.dto.PrendasDto;
@@ -25,8 +26,8 @@ public class ImplementationPrendasService implements PrendasService {
     }
 
     @Override
-    public List<PrendasDto> getAllPrendas() {
-        List<Prendas> prendas = prendaRepository.findAll();
+    public List<PrendasDto> getAllPrendasByUser(User user) {
+        List<Prendas> prendas = prendaRepository.findByUser(user);
         return prendas.stream().map(prenda -> PrendasMapper.mapToPrendasDto(prenda))
                 .collect(Collectors.toList());
     }
