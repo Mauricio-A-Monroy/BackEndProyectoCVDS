@@ -42,9 +42,10 @@ public class PrendasController {
     }
 
     @GetMapping("/prenda")
-    public ResponseEntity<List<PrendasDto>> getAllPrendas(@RequestParam String userEmail){
+    public ResponseEntity<List<PrendasDto>> getAllPrendas(@CookieValue("authToken") UUID authToken){
         // Obtiene el usuario a partir del correo electrónico
-        User user = userRepository.findByEmail(userEmail);
+        Session session = sessionRepository.findByToken(authToken);
+        User user = session.getUser();
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); // Devuelve un error si el usuario no se encuentra
         }

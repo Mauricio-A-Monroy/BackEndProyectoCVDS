@@ -1,5 +1,7 @@
 package Mavreactors.app.Model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Date;
@@ -9,6 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@JsonIgnoreProperties(value = { "email"})
 @Table(name = "PRENDAS")
 public class Prendas {
 
@@ -36,5 +39,6 @@ public class Prendas {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "email", referencedColumnName = "email")
+    @JsonIdentityReference(alwaysAsId = true)
     private User user;
 }

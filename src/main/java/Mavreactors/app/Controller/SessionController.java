@@ -33,4 +33,15 @@ public class SessionController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/user")
+    public ResponseEntity<String> getUserEmailFromSession(@RequestParam UUID sessionId) {
+        Session session = sessionRepository.findByToken(sessionId);
+        if (session != null) {
+            String userEmail = session.getUser().getEmail();
+            return ResponseEntity.ok(userEmail);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
