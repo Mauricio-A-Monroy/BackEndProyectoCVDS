@@ -1,5 +1,6 @@
 package Mavreactors.app.dto;
 
+import Mavreactors.app.Model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -24,5 +25,6 @@ public class PrendasDto {
     private Date ultimoLavado;
     private Character tipo;
     private Date ultimoUso;
+    private User user;
 
 }

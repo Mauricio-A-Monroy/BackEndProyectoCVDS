@@ -33,4 +33,8 @@ public class Prendas {
 
     @Column(name = "ULTIMO_USO")
     private Date ultimoUso;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "email", referencedColumnName = "email")
+    private User user;
 }
